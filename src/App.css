@@ -57,3 +57,7 @@ h2 {
   font-weight: bold;
   letter-spacing: 2px;
 }
+
+.login-err {
+  color: red;
+}
