@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux"
+import { isLogined } from "./../store.js"
 
 function Login() {
   let [Logined, setLogined] = useState(false);
@@ -8,12 +10,15 @@ function Login() {
   let [비밀번호, 비밀번호변경] = useState('');
   let [isErr, setIsErr] = useState(false);
 
+  let a = useSelector((state)=>{ return state.isPlaying })
+  let dispatch = useDispatch()
+
   function LoginClick(e) {
     console.log(이메일);
     axios.post('/v1/login', {"email" : 이메일, "password" : 비밀번호})
     .then((res)=> {
       console.log(res); 
-      setLogined(true);
+      dispatch(isLogined())
     })
     .catch((err) => {
       console.error("[%d] msg: %s", err.response.status, err.response.data.msg);
