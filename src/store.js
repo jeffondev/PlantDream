@@ -1,17 +1,23 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 
-let isLogined = createSlice({
-  isPlaying : false,
+let isLogginedSlice = createSlice({
+  name : 'isLoggined',
+  initialState : false,
   reducers : {
-    sucLogin(state){
-      return (state = true)
+    loggined(state){
+      console.log('loggined');
+      state = true;
+      return state
+    }, 
+    logout(state) {
+      state = false;
     }
   }
 })
 
-export let { sucLogin } = isLogined.actions
+export let { loggined, logout } = isLogginedSlice.actions;
 export default configureStore({
   reducer: {
-    isLogined : isLogined.reducer
+    isLoggined : isLogginedSlice.reducer
   }
 }) 
