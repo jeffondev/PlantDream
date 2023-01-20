@@ -2,7 +2,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit'
 
 let isLogginedSlice = createSlice({
   name : 'isLoggined',
-  initialState : false,
+  initialState : true,
   reducers : {
     loggined(state){
       console.log('loggined');

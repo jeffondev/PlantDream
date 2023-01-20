@@ -4,24 +4,30 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import Login from './components/Login';
-import { useSelector } from "react-redux"
+import Home from './components/Home';
+import { useDispatch, useSelector } from "react-redux"
+import { loggined } from "./store"
 
 function App() {
   let [Logined, setLogined] = useState(false);
+
+
+  let state = useSelector((state)=> state);
+  let dispatch = useDispatch();
 
   // AuthRouter
 // <Route path="/login" linkto="components/Login" />
 
 // <Route path="/login" linkto="components/Login" />
 
-  if(!Logined) {
+  if(!state.isLoggined) {
     return (
       <Login />
     );
   }
   else {
     return (
-      <div>안녕!! 난 메인</div>
+      <Home/>
     );
   }
 }
