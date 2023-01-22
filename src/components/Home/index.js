@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createGlobalStyle } from 'styled-components';
 import SeedTemplate from './SeedTemplate';
 import SeedHead from './SeedHead';

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { loggined } from "../store"
 
 function Login() {
-  let [이메일,이메일변경] = useState('');
+  let [이메일, 이메일변경] = useState('');
   let [비밀번호, 비밀번호변경] = useState('');
   let [isErr, setIsErr] = useState(false);
 
@@ -13,16 +13,16 @@ function Login() {
 
   function LoginClick(e) {
     console.log(이메일);
-    // axios.post('/v1/login', {"email" : 이메일, "password" : 비밀번호})
-    // .then((res)=> {
-    //   console.log(res); 
-    //   dispatch(loggined())
-    // })
-    // .catch((err) => {
-    //   console.error("[%d] msg: %s", err.response.status, err.response.data.msg);
-    //   setIsErr(true);
-    // })
-    dispatch(loggined())
+    axios.post('/v1/auth/signin', {"email" : 이메일, "password" : 비밀번호})
+    .then((res)=> {
+      console.log(res); 
+      dispatch(loggined())
+    })
+    .catch((err) => {
+      console.error("[%d] msg: %s", err.response.status, err.response.data.msg);
+      setIsErr(true);
+    })
+    // dispatch(loggined())
   }
 
   const handleEmailChange = (e) => {
