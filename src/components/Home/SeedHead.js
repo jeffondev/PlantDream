@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from "react-redux"
 
 const SeedHeadBlock = styled.div`
   padding-top: 48px;
@@ -26,11 +27,21 @@ const SeedHeadBlock = styled.div`
 `;
 
 function SeedHead() {
+  let state = useSelector((state)=> state);
+  let today = new Date();   
+
+  let year = today.getFullYear(); // 년도
+  let month = today.getMonth() + 1;  // 월
+  let date = today.getDate();  // 날짜
+  let day = today.getDay();  // 요일
+
+  let week = ['일', '월', '화', '수', '목', '금', '토'];
+
   return (
     <SeedHeadBlock>
-      <h1>2019년 7월 10일</h1>
-      <div className="day">수요일</div>
-      <div className="tasks-left">남은 목표 2개 남음</div>
+      <h1>{year + "년" + month + "월" + date + "일"}</h1>
+      <div className="day">{week[day] + "요일"}</div>
+      <div className="tasks-left">남은 목표 {state.seeds.length}개 남음</div>
     </SeedHeadBlock>
   );
 }
