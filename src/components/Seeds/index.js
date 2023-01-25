@@ -5,8 +5,6 @@ import SeedHead from './SeedHead';
 import SeedList from './SeedList';
 import SeedCreate from './SeedCreate';
 
-
-
 const GlobalStyle = createGlobalStyle`
   body {
     background: #e9ecef;
@@ -14,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 
-function Home() {
+function Seeds() {
   return (
     <>
       <GlobalStyle />
@@ -28,4 +26,4 @@ function Home() {
 
 }
 
-export default Home;
+export default Seeds;
