@@ -8,6 +8,8 @@ import Login from './components/Login';
 import Seeds from './components/Seeds';
 import { useSelector } from "react-redux"
 import SeedDetail from './components/SeedDetail';
+
+import ChartTest from './components/ChartTest';
 // import { loggined } from "./store"
 
 function App() {
@@ -21,6 +23,9 @@ function App() {
 // <Route path="/login" linkto="components/Login" />
 
 // <Route path="/login" linkto="components/Login" />
+
+
+  return <ChartTest width={400} height={400} />;
 
   if(!state.isLoggined) {
     return (
