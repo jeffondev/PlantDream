@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { MdDone, MdDelete } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 const Remove = styled.div`
   display: flex;
@@ -57,11 +58,18 @@ const Text = styled.div`
     `}
 `;
 
+
 function SeedItem({ id, done, text }) {
+
+  const navigate = useNavigate();
+  const showDetail = (id) => {
+    navigate("/seeds/"+id)
+  }
+
   return (
     <SeedItemBlock>
       <CheckCircle done={done}>{done && <MdDone />}</CheckCircle>
-      <Text done={done}>{text}</Text>
+      <Text done={done} onClick={() => showDetail(id)}>{text}</Text>
       <Remove>
         <MdDelete />
       </Remove>

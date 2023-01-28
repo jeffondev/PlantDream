@@ -25,7 +25,7 @@ function App() {
 // <Route path="/login" linkto="components/Login" />
 
 
-  return <ChartTest width={400} height={400} />;
+  // return <ChartTest width={400} height={400} />;
 
   if(!state.isLoggined) {
     return (
