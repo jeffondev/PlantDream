@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
+import SeedDetail from './components/SeedDetail';
 
 let isLogginedSlice = createSlice({
   name : 'isLoggined',
@@ -27,11 +28,25 @@ let seedSlice = createSlice({
   }
 })
 
+let seedDetailSlice = createSlice({
+  name : "seedDetail",
+  initialState : {title: ""},
+  reducers : {
+    setSeedDetail(state, data) {
+      state.title = data.payload.title;
+      console.log(state.title);
+      return state;
+    }
+  }
+})
+
 export let { loggined, logout } = isLogginedSlice.actions;
 export let { pushSeed } = seedSlice.actions;
+export let { setSeedDetail } = seedDetailSlice.actions;
 export default configureStore({
   reducer: {
     isLoggined : isLogginedSlice.reducer,
-    seeds : seedSlice.reducer
+    seeds: seedSlice.reducer,
+    seedDetail : seedDetailSlice.reducer
   }
 }) 

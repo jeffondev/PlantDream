@@ -5,6 +5,8 @@ import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 const SeedHeadBlock = styled.div`
+  display: flex;
+  align-items: center;
   padding-top: 48px;
   padding-left: 32px;
   padding-right: 32px;
@@ -28,13 +30,21 @@ const SeedHeadBlock = styled.div`
   }
 `;
 
-function SeedHead() {
+const SeedHeadTitle = styled.div`
+  font-size: 30px;
+  padding-left: 10px;
+`;
 
+function SeedHead() {
   const navigate = useNavigate();
+
+  let state = useSelector((state)=> state);
+  const title = state.seedDetail.title;
 
   return (
     <SeedHeadBlock>
       <MdKeyboardArrowLeft onClick={()=>navigate(-1)}/>
+      <SeedHeadTitle>{title}</SeedHeadTitle>
     </SeedHeadBlock>
   );
 }
