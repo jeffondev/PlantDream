@@ -30,11 +30,19 @@ let seedSlice = createSlice({
 
 let seedDetailSlice = createSlice({
   name : "seedDetail",
-  initialState : {title: ""},
+  initialState : {
+    title: "",
+    start_date: 0,
+    planned_days: 0,
+    plants: []
+  },
   reducers : {
     setSeedDetail(state, data) {
       state.title = data.payload.title;
-      console.log(state.title);
+      state.start_date = data.payload.start_date;
+      state.planned_days = data.payload.planned_days;
+      state.plants = data.payload.plants;
+
       return state;
     }
   }
