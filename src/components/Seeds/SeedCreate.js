@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { MdAdd } from 'react-icons/md';
+import Form from 'react-bootstrap/Form';
+import React, { Component } from "react";
 
 const CircleButton = styled.button`
   background: #38d9a9;
@@ -80,12 +82,32 @@ function SeedCreate() {
 
   const onToggle = () => setOpen(!open);
 
+  function getInitialState(){
+    var value = new Date().toISOString();
+    return {
+      value: value
+    }
+  }
+  function handleChange(value, formattedValue) {
+    this.setState({
+      value: value, // ISO String, ex: "2016-11-19T12:00:00.000Z"
+      formattedValue: formattedValue // Formatted String, ex: "11/19/2016"
+    });
+  }
+  function componentDidUpdate(){
+    // Access ISO String and formatted values from the DOM.
+    var hiddenInputElement = document.getElementById("example-datepicker");
+    console.log(hiddenInputElement.value); // ISO String, ex: "2016-11-19T12:00:00.000Z"
+    console.log(hiddenInputElement.getAttribute('data-formattedvalue')) // Formatted String, ex: "11/19/2016"
+  }
+
   return (
     <>
       {open && (
         <InsertFormPositioner>
           <InsertForm>
             <Input autoFocus placeholder="목표를 입력 후, Enter 를 누르세요" />
+            <Form.Control type="date" name="dob" placeholder="Date of Birth" onChange={(e) => console.log(e.target.value)} />
           </InsertForm>
         </InsertFormPositioner>
       )}
