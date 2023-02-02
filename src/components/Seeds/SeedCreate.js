@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import axios from 'axios';
 import styled, { css } from 'styled-components';
 import { MdAdd } from 'react-icons/md';
+import Button from 'react-bootstrap/Button';
+
 import Form from 'react-bootstrap/Form';
+import { useDispatch } from "react-redux"
+import { pushSeed } from "../../store"
 import React, { Component } from "react";
 
 const CircleButton = styled.button`
@@ -82,23 +87,31 @@ function SeedCreate() {
 
   const onToggle = () => setOpen(!open);
 
-  function getInitialState(){
-    var value = new Date().toISOString();
-    return {
-      value: value
-    }
+  let [inputs, setInputs] = useState({title: '', start_date: '', planned_days: ''});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setInputs({
+      ...inputs,
+      [name] : value
+    })
   }
-  function handleChange(value, formattedValue) {
-    this.setState({
-      value: value, // ISO String, ex: "2016-11-19T12:00:00.000Z"
-      formattedValue: formattedValue // Formatted String, ex: "11/19/2016"
-    });
-  }
-  function componentDidUpdate(){
-    // Access ISO String and formatted values from the DOM.
-    var hiddenInputElement = document.getElementById("example-datepicker");
-    console.log(hiddenInputElement.value); // ISO String, ex: "2016-11-19T12:00:00.000Z"
-    console.log(hiddenInputElement.getAttribute('data-formattedvalue')) // Formatted String, ex: "11/19/2016"
+
+  let dispatch = useDispatch();
+  const handleSubmit = (e) => {
+    axios.post('/v1/seeds', inputs)
+    .then((res)=> {
+      axios.get('/v1/seeds')
+        .then((data)=>{ 
+          // console.log(data.data);
+          dispatch(pushSeed(data.data))
+        })
+        setInputs({
+          title: '', start_date: '', planned_days: ''
+        })
+        setOpen(!open)
+    })
   }
 
   return (
@@ -106,8 +119,10 @@ function SeedCreate() {
       {open && (
         <InsertFormPositioner>
           <InsertForm>
-            <Input autoFocus placeholder="목표를 입력 후, Enter 를 누르세요" />
-            <Form.Control type="date" name="dob" placeholder="Date of Birth" onChange={(e) => console.log(e.target.value)} />
+            <Input name='title' value={inputs.title} autoFocus placeholder="목표 입력하세요!" onChange={handleChange}/>
+            <Form.Control type="date" name="start_date" value={inputs.start_date} placeholder="언제 시작할까요?" onChange={handleChange} />
+            <Input name='planned_days' value={inputs.planned_days} type="number" placeholder="목표일수 입력하세요!" onChange={handleChange}/>
+            <Button variant="outline-success" onClick={handleSubmit}>Success</Button>
           </InsertForm>
         </InsertFormPositioner>
       )}

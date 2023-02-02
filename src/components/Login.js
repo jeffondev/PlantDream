@@ -15,7 +15,6 @@ function Login() {
     console.log(이메일);
     axios.post('/v1/auth/signin', {"email" : 이메일, "password" : 비밀번호})
     .then((res)=> {
-      console.log(res); 
       dispatch(loggined())
     })
     .catch((err) => {

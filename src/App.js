@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import { Routes, Route, Link, useNavigate, Outlet , Redirect, Navigate} from 'react-router-dom';
 // import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from './components/Login';
 import Seeds from './components/Seeds';
