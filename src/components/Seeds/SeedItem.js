@@ -71,14 +71,21 @@ function SeedItem({ id, done, text }) {
   
   let dispatch = useDispatch();
   const deleteItem = (e) => {
-    axios.delete(`/v1/seeds/${id}`)
-      .then((res)=>{
-        axios.get('/v1/seeds')
-          .then((data)=>{  
-            dispatch(pushSeed(data.data))
-          })
-      })
+    confirmModal();
   }
+
+  const confirmModal = (e) => {
+    if (window.confirm("정말 목표를 삭제하시겠습니까?")) {
+      axios.delete(`/v1/seeds/${id}`)
+          .then((res)=>{
+            axios.get('/v1/seeds')
+              .then((data)=>{  
+                dispatch(pushSeed(data.data))
+              })
+          })
+    }
+  }
+
 
   return (
     <SeedItemBlock>
