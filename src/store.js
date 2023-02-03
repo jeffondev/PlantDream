@@ -1,5 +1,4 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
-import SeedDetail from './components/SeedDetail';
 
 let isLogginedSlice = createSlice({
   name : 'isLoggined',

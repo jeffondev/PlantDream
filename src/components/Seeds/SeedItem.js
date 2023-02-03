@@ -1,7 +1,10 @@
 import React from 'react';
+import axios from 'axios';
 import styled, { css } from 'styled-components';
 import { MdDone, MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux"
+import { pushSeed } from "../../store"
 
 const Remove = styled.div`
   display: flex;
@@ -65,13 +68,24 @@ function SeedItem({ id, done, text }) {
   const showDetail = (id) => {
     navigate("/seeds/"+id)
   }
+  
+  let dispatch = useDispatch();
+  const deleteItem = (e) => {
+    axios.delete(`/v1/seeds/${id}`)
+      .then((res)=>{
+        axios.get('/v1/seeds')
+          .then((data)=>{  
+            dispatch(pushSeed(data.data))
+          })
+      })
+  }
 
   return (
     <SeedItemBlock>
       <CheckCircle done={done}>{done && <MdDone />}</CheckCircle>
       <Text done={done} onClick={() => showDetail(id)}>{text}</Text>
       <Remove>
-        <MdDelete />
+        <MdDelete onClick={deleteItem}/>
       </Remove>
     </SeedItemBlock>
   );

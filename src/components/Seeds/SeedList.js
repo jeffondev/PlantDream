@@ -4,8 +4,6 @@ import SeedItem from './SeedItem';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux"
 import { pushSeed } from "../../store"
-import { Routes, Route, Link, useNavigate, Outlet , Redirect, Navigate} from 'react-router-dom';
-import SeedDetail from '../SeedDetail';
 
 const SeedListBlock = styled.div`
   flex: 1;
@@ -30,13 +28,13 @@ function SeedList() {
   // function showDetail(id) {
   //   console.log(id);
   //   // navigate(`./{id}`)
-  // }
+  // }x
 
   return (
     <SeedListBlock>
     {
       state.seeds.map((seed, index) => (
-        <SeedItem key={index} id={seed.id} text={seed.title} done={true}/>
+        <SeedItem key={index} id={seed.id} text={seed.title} done={false}/>
       ))
     }
     </SeedListBlock>
