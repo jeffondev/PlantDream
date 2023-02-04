@@ -22,7 +22,7 @@ function SeedDetail() {
   const { id } = useParams();
 
   useEffect(()=>{
-    axios.get(`/v1/seeds/:${id}`)
+    axios.get(`/v1/seeds/${id}`)
       .then((data)=>{ 
         console.log(data.data)
         dispatch(setSeedDetail(data.data))
@@ -33,9 +33,8 @@ function SeedDetail() {
     <>
       <GlobalStyle />
       <SeedTemplate>
-        <SeedHead>
-          
-        </SeedHead>
+        <SeedHead />
+        
         <SeedPlant/>
       </SeedTemplate>
     </>
