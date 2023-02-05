@@ -34,7 +34,6 @@ function SeedDetail() {
       <GlobalStyle />
       <SeedTemplate>
         <SeedHead />
-        
         <SeedPlant/>
       </SeedTemplate>
     </>

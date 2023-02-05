@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from "react-redux"
 import { Group } from '@visx/group';
@@ -11,7 +11,7 @@ const SeedPlantBlock = styled.div`
 
 export const background = '#28272c';
 
-const defaultMargin = { top: 10, left: 10, right: 10, bottom: 10 };
+const defaultMargin = { top: 0, left: 4, right: 4, bottom: 0 };
 
 function max(data, value) {
   return Math.max(...data.map(value));
@@ -21,19 +21,14 @@ function min(data, value) {
     return Math.min(...data.map(value));
 }
 const colorMax = 10;
-const bucketSizeMax = 2;
 
 const xScale = scaleLinear({
-  range: [0, 480],
-  domain: [0, bucketSizeMax],
 });
 const yScale = scaleLinear({
-  range: [0, 480],
-  domain: [0, bucketSizeMax],
 });
 
-const cool1 = '#122549';
-const cool2 = '#b4fbde';
+const cool1 = '#000000';
+const cool2 = '#b4ffde';
 const rectColorScale = scaleLinear({
   range: [cool1, cool2],
   domain: [0, colorMax],
@@ -48,29 +43,63 @@ function PlatnChart({
   start_date, days,
   events = true,
   margin = defaultMargin,
+  plants
 }) {
-  const row = (new Date( start_date ).getDay() + days -1) / 7 + 1;
+  const cols = 7;
+  const rows = Math.floor( (new Date( start_date ).getDay() + days -1) / cols + 1 );
   const binGap = 2;
-  const binSize = 70;
-  const height = ( ( binSize + binGap ) * row ) - binGap;
+  const binSize = 68;
+  const height = ( ( binSize + binGap ) * rows ) - binGap;
 
-  // 2차원 배열을 만들기
-  const data = [
-    {
-      bin: 0,
-      bins: [{count:3, bin: 0}, {count:4, bin: 1}, ]
-    },
-    {
-      bin: 1,
-      bins: [{count:7, bin: 0}, {count:9, bin: 1}, ]
+  xScale.range([0, width]);
+  xScale.domain([0, cols]);
+  yScale.range([0, height]);
+  yScale.domain([0, rows]);
+
+  useEffect(() => {
+    if(!start_date) return;
+  }, [start_date]);
+
+  if(!start_date) return;
+  console.log('loading.........')
+
+  let data = new Array(cols).fill().map((row, index) => {
+    return {
+      bin: index, 
+      bins: new Array(rows).fill().map((col, index) => {
+        return {count: 0, bin: index}})
     }
-  ];
+  });
+  data[0].bins[0].count = 0;
+  data[1].bins[0].count = 1;
+  data[2].bins[0].count = 2;
+  data[3].bins[0].count = 3;
+  data[4].bins[0].count = 4;
+  data[5].bins[0].count = 5;
+  data[6].bins[0].count = 6;
+
+  data[0].bins[1].count = 7;
+  data[1].bins[1].count = 8;
+  data[2].bins[1].count = 9;
+  data[3].bins[1].count = 10;
+
   
-  console.log(row);
+  console.log(data);
+
+  // const data = new Array(rows);
+  // data.fill(0).map((item, index) => {
+  //   // item = {
+  //   //   bin: index, 
+  //   //   bins: [new Array(cols).map((item, index) => {item = {count: 0, bin: index}})]
+  //   // }
+  // })
+
+  // console.log(data);
+  
 
   return (
     <svg width={width} height={height}>
-      <rect x={0} y={0} width={width} height={height} rx={16} fill={background} />
+      {/* <rect x={0} y={0} width={width} height={height} rx={0} fill={background} /> */}
       <Group top={margin.top} left={margin.left}>
         <HeatmapRect
           data={data}
@@ -118,10 +147,10 @@ function SeedPlant () {
     start_date: state.seedDetail.start_date,
     days: state.seedDetail.planned_days
   }));
-  console.log(plants.length);
+  // console.log(plants.length);
   return (
     <SeedPlantBlock>
-      <PlatnChart width={500} start_date={start_date} days={days} />
+      <PlatnChart width={500} start_date={start_date} days={days} plants={plants} />
     </SeedPlantBlock>
   );
 }

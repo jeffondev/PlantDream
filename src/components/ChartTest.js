@@ -23,7 +23,7 @@ const binData = genBins(
   /** countFunc */ (i, number) => 25 * (number - i) * seededRandom(),
 );
 
-console.log(binData);
+// console.log(binData);
 
 function max(data, value) {
   return Math.max(...data.map(value));
