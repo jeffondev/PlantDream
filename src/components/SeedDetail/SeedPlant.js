@@ -20,7 +20,7 @@ function max(data, value) {
 function min(data, value) {
     return Math.min(...data.map(value));
 }
-const colorMax = 10;
+const colorMax = 3;
 
 const xScale = scaleLinear({
 });
@@ -38,6 +38,15 @@ const opacityScale = scaleLinear({
   domain: [0, colorMax],
 });
 
+const getDateDiff = (d1, d2) => {
+  const date1 = new Date(d1);
+  const date2 = new Date(d2);
+  
+  const diffDate = date1.getTime() - date2.getTime();
+  
+  return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+}
+
 function PlatnChart({
   width, 
   start_date, days,
@@ -45,8 +54,14 @@ function PlatnChart({
   margin = defaultMargin,
   plants
 }) {
+  if(!start_date) return <div />;
+  console.log('loading.........')
+
   const cols = 7;
-  const rows = Math.floor( (new Date( start_date ).getDay() + days -1) / cols + 1 );
+  console.log(start_date);
+  start_date = new Date(start_date);
+  const start_day = start_date.getDay(); 
+  const rows = Math.floor( ( start_day + days -1) / cols + 1 );
   const binGap = 2;
   const binSize = 68;
   const height = ( ( binSize + binGap ) * rows ) - binGap;
@@ -56,12 +71,6 @@ function PlatnChart({
   yScale.range([0, height]);
   yScale.domain([0, rows]);
 
-  useEffect(() => {
-    if(!start_date) return;
-  }, [start_date]);
-
-  if(!start_date) return;
-  console.log('loading.........')
 
   let data = new Array(cols).fill().map((row, index) => {
     return {
@@ -70,33 +79,16 @@ function PlatnChart({
         return {count: 0, bin: index}})
     }
   });
-  data[0].bins[0].count = 0;
-  data[1].bins[0].count = 1;
-  data[2].bins[0].count = 2;
-  data[3].bins[0].count = 3;
-  data[4].bins[0].count = 4;
-  data[5].bins[0].count = 5;
-  data[6].bins[0].count = 6;
 
-  data[0].bins[1].count = 7;
-  data[1].bins[1].count = 8;
-  data[2].bins[1].count = 9;
-  data[3].bins[1].count = 10;
-
+  plants.map((item, idx)=>{
+    const term_day = getDateDiff(new Date(item.date), new Date(start_date));
+    const index = term_day + start_day;
+    const x = index % 7;
+    const y = Math.floor( index / 7 );
+    // console.log(x, y, index, term_day);
+    data[x].bins[y].count = item.weight;
+  })
   
-  console.log(data);
-
-  // const data = new Array(rows);
-  // data.fill(0).map((item, index) => {
-  //   // item = {
-  //   //   bin: index, 
-  //   //   bins: [new Array(cols).map((item, index) => {item = {count: 0, bin: index}})]
-  //   // }
-  // })
-
-  // console.log(data);
-  
-
   return (
     <svg width={width} height={height}>
       {/* <rect x={0} y={0} width={width} height={height} rx={0} fill={background} /> */}
