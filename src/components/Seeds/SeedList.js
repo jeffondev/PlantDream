@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SeedItem from './SeedItem';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux"
-import { pushSeed } from "../../store"
+import { pushSeed, setOnTogle } from "../../store"
 
 const SeedListBlock = styled.div`
   flex: 1;
@@ -34,7 +34,7 @@ function SeedList() {
     <SeedListBlock>
     {
       state.seeds.map((seed, index) => (
-        <SeedItem key={index} id={seed.id} text={seed.title} done={false}/>
+        <SeedItem key={index} id={seed.id} text={seed.title} done={state.setOnTogle}/>
       ))
     }
     </SeedListBlock>

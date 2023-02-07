@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styled, { css } from 'styled-components';
 import { MdDone, MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux"
-import { pushSeed } from "../../store"
+import { useDispatch, useSelector } from "react-redux"
+import { pushSeed, setOnTogle } from "../../store"
 
 const Remove = styled.div`
   display: flex;
@@ -70,6 +70,8 @@ function SeedItem({ id, done, text }) {
   }
   
   let dispatch = useDispatch();
+  let state = useSelector((state)=> state);
+
   const deleteItem = (e) => {
     confirmModal();
   }
@@ -85,11 +87,12 @@ function SeedItem({ id, done, text }) {
           })
     }
   }
+  
 
 
   return (
     <SeedItemBlock>
-      <CheckCircle done={done}>{done && <MdDone />}</CheckCircle>
+      <CheckCircle done={done} onClick={()=>dispatch(setOnTogle(!state.setOnTogle))}>{done && <MdDone />}</CheckCircle>
       <Text done={done} onClick={() => showDetail(id)}>{text}</Text>
       <Remove>
         <MdDelete onClick={deleteItem}/>

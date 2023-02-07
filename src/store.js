@@ -47,13 +47,25 @@ let seedDetailSlice = createSlice({
   }
 })
 
+let onTogleSlice = createSlice({
+  name : "onTogle",
+  initialState : true,
+  reducers : {
+    setOnTogle(state, data) {
+      state = data
+    }
+  }
+})
+
 export let { loggined, logout } = isLogginedSlice.actions;
 export let { pushSeed } = seedSlice.actions;
 export let { setSeedDetail } = seedDetailSlice.actions;
+export let { setOnTogle } = onTogleSlice.actions;
 export default configureStore({
   reducer: {
     isLoggined : isLogginedSlice.reducer,
     seeds: seedSlice.reducer,
-    seedDetail : seedDetailSlice.reducer
+    seedDetail : seedDetailSlice.reducer,
+    onTogle : onTogleSlice.reducer
   }
 }) 
