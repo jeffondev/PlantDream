@@ -34,7 +34,7 @@ function SeedList() {
     <SeedListBlock>
     {
       state.seeds.map((seed, index) => (
-        <SeedItem key={index} id={seed.id} text={seed.title} done={state.setOnTogle}/>
+        <SeedItem key={index} id={seed.id} text={seed.title} done={seed.done}/>
       ))
     }
     </SeedListBlock>

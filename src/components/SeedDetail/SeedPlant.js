@@ -44,7 +44,7 @@ const getDateDiff = (d1, d2) => {
   
   const diffDate = date1.getTime() - date2.getTime();
   
-  return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+  return Math.floor(Math.abs(diffDate / (1000 * 60 * 60 * 24))); // 밀리세컨 * 초 * 분 * 시 = 일
 }
 
 function PlatnChart({
@@ -83,9 +83,9 @@ function PlatnChart({
   plants.map((item, idx)=>{
     const term_day = getDateDiff(new Date(item.date), new Date(start_date));
     const index = term_day + start_day;
-    const x = index % 7;
+    const x = Math.floor(index % 7);
     const y = Math.floor( index / 7 );
-    // console.log(x, y, index, term_day);
+    console.log(x, y, term_day, index, new Date(item.date), new Date(start_date));
     data[x].bins[y].count = item.weight;
   })
   

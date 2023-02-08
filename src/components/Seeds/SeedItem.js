@@ -88,11 +88,19 @@ function SeedItem({ id, done, text }) {
     }
   }
   
-
+  const handleCheckClick = (e) => {
+    axios.post(`/v1/seeds/${id}/plant`)
+    .then((res)=>{
+      axios.get(`/v1/seeds`)
+      .then((data)=>{
+        dispatch(pushSeed(data.data))
+      })
+    })
+  }
 
   return (
     <SeedItemBlock>
-      <CheckCircle done={done} onClick={()=>dispatch(setOnTogle(!state.setOnTogle))}>{done && <MdDone />}</CheckCircle>
+      <CheckCircle done={done} onClick={handleCheckClick}>{done && <MdDone />}</CheckCircle>
       <Text done={done} onClick={() => showDetail(id)}>{text}</Text>
       <Remove>
         <MdDelete onClick={deleteItem}/>
