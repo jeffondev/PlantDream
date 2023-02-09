@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { loggined } from "../store"
+import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
+import tree from "../img/나무무무무.png"
 
 function Login() {
   let [이메일, 이메일변경] = useState('');
@@ -29,21 +31,41 @@ function Login() {
   }
 
   return (
-    <div className="App">
+    <div className="Login">
     <div>
-      <div className='main-page'>
-        <div>
-        { !state.isLoggined && "login하세요" }
-          <h2>Plant a Dream</h2>
-          <input type="text" placeholder='이메일' onChange={handleEmailChange}></input>
-        </div>
-        <div>
-          <input type="password" placeholder='비밀번호' onChange={(e)=>{ 비밀번호변경(e.target.value) }}></input>
-        </div>
-        <button onClick={() => {LoginClick()}}>로그인</button>
-        {isErr && (
-          <div className='login-err'>로그인 정보가 잘못되었습니다.</div>
-        )}
+      <div className='Login-main'>
+        <BrowserView>
+          <div>
+            { !state.isLoggined && "login하세요" }
+            <h2>Plant a Dream</h2>
+            <input type="text" placeholder='이메일' onChange={handleEmailChange}></input>
+          </div>
+          <div>
+            <input type="password" placeholder='비밀번호' onChange={(e)=>{ 비밀번호변경(e.target.value) }}></input>
+          </div>
+          <button onClick={() => {LoginClick()}}>로그인</button>
+          {isErr && (
+            <div className='login-err'>로그인 정보가 잘못되었습니다.</div>
+          )}
+        </BrowserView>
+
+        <MobileView>
+          <div>
+            <img src={tree}/>
+          </div>
+          <div>
+            { !state.isLoggined && "login하세요" }
+            <h2>Plant a Dream</h2>
+            <input type="text" placeholder='이메일' onChange={handleEmailChange}></input>
+          </div>
+          <div>
+            <input type="password" placeholder='비밀번호' onChange={(e)=>{ 비밀번호변경(e.target.value) }}></input>
+          </div>
+          <button onClick={() => {LoginClick()}}>로그인</button>
+          {isErr && (
+            <div className='login-err'>로그인 정보가 잘못되었습니다.</div>
+          )}
+        </MobileView>
       </div>
     </div>
   </div>
