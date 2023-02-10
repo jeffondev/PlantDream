@@ -28,7 +28,9 @@ function App() {
 
   // return <ChartTest width={400} height={400} />;
 
-  if(!state.isLoggined) {
+  console.log(localStorage.getItem("auth"));
+
+  if(!state.token) {
     return (
       <Login />
     );

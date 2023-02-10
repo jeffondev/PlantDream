@@ -1,23 +1,26 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import { loggined } from "../store"
+import { setToken } from "../store"
 import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
 import tree from "../img/나무무무무.png"
 
 function Login() {
-  let [이메일, 이메일변경] = useState('');
-  let [비밀번호, 비밀번호변경] = useState('');
+  let [email, setEmail] = useState('');
+  let [password, setPassword] = useState('');
   let [isErr, setIsErr] = useState(false);
 
   let state = useSelector((state)=> state);
   let dispatch = useDispatch();
 
   function LoginClick(e) {
-    console.log(이메일);
-    axios.post('/v1/auth/signin', {"email" : 이메일, "password" : 비밀번호})
+    axios.post('/v1/auth/signin', {"email" : email, "password" : password})
     .then((res)=> {
-      dispatch(loggined())
+      const token = res.data.token;
+      console.log(res, token);
+      dispatch(setToken(token));
+      localStorage.setItem("email", email);
+      localStorage.setItem("auth", token);
     })
     .catch((err) => {
       console.error("[%d] msg: %s", err.response.status, err.response.data.msg);
@@ -27,8 +30,13 @@ function Login() {
   }
 
   const handleEmailChange = (e) => {
-    이메일변경(e.target.value);
+    console.log("handleEmailChange")
+    setEmail(e.target.value);
   }
+  useEffect(() => {
+    // console.log(localStorage.getItem("email"))
+    setEmail(localStorage.getItem("email"))
+  }, [])
 
   return (
     <div className="Login">
@@ -38,10 +46,10 @@ function Login() {
           <div>
             { !state.isLoggined && "login하세요" }
             <h2>Plant a Dream</h2>
-            <input type="text" placeholder='이메일' onChange={handleEmailChange}></input>
+            <input type="text" placeholder='이메일' value={email} onChange={handleEmailChange}></input>
           </div>
           <div>
-            <input type="password" placeholder='비밀번호' onChange={(e)=>{ 비밀번호변경(e.target.value) }}></input>
+            <input type="password" placeholder='비밀번호' onChange={(e)=>{ setPassword(e.target.value) }}></input>
           </div>
           <button onClick={() => {LoginClick()}}>로그인</button>
           {isErr && (
@@ -59,7 +67,7 @@ function Login() {
             <input type="text" placeholder='이메일' onChange={handleEmailChange}></input>
           </div>
           <div>
-            <input type="password" placeholder='비밀번호' onChange={(e)=>{ 비밀번호변경(e.target.value) }}></input>
+            <input type="password" placeholder='비밀번호' onChange={(e)=>{ setPassword(e.target.value) }}></input>
           </div>
           <button onClick={() => {LoginClick()}}>로그인</button>
           {isErr && (

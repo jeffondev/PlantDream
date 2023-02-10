@@ -1,16 +1,11 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 
-let isLogginedSlice = createSlice({
-  name : 'isLoggined',
-  initialState : false,
+let getTokenSlice = createSlice({
+  name : 'token',
+  initialState : "",
   reducers : {
-    loggined(state){
-      console.log('loggined');
-      state = true;
-      return state;
-    }, 
-    logout(state) {
-      state = false;
+    setToken(state, data){
+      state = data;
       return state;
     }
   }
@@ -23,7 +18,6 @@ let seedSlice = createSlice({
     pushSeed(state, data) {
       state = data.payload.map((item)=>{
         const { title, id, weight } = item;
-        // console.log(weight);
         return {id, title, done: weight>0}
       })
       return state;
@@ -52,12 +46,12 @@ let seedDetailSlice = createSlice({
 })
 
 
-export let { loggined, logout } = isLogginedSlice.actions;
+export let { setToken } = getTokenSlice.actions;
 export let { pushSeed } = seedSlice.actions;
 export let { setSeedDetail } = seedDetailSlice.actions;
 export default configureStore({
   reducer: {
-    isLoggined : isLogginedSlice.reducer,
+    token : getTokenSlice.reducer,
     seeds: seedSlice.reducer,
     seedDetail : seedDetailSlice.reducer,
   }
