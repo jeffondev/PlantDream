@@ -7,10 +7,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from './components/Login';
 import Seeds from './components/Seeds';
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import SeedDetail from './components/SeedDetail';
 
 import ChartTest from './components/ChartTest';
+import axios from 'axios';
+import { setToken } from "./store"
 // import { loggined } from "./store"
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
 
 
   let state = useSelector((state)=> state);
+  let dispatch = useDispatch();
   // let dispatch = useDispatch();
 
   // AuthRouter
@@ -29,6 +32,22 @@ function App() {
   // return <ChartTest width={400} height={400} />;
 
   console.log(localStorage.getItem("auth"));
+
+  if(!state.token) {
+    const token = localStorage.getItem("auth");
+    const email = localStorage.getItem("email");
+
+    if(token) {
+      axios.post('/v1/auth/credential', {email, "auth_token": token})
+      .then((res)=>{
+        console.log("auto login");
+        dispatch(setToken(token));
+      })
+      .catch((res)=>{
+        localStorage.removeItem("auth");
+      })
+    }
+  }
 
   if(!state.token) {
     return (
