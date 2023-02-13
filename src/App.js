@@ -10,6 +10,8 @@ import Seeds from './components/Seeds';
 import { useSelector, useDispatch } from "react-redux"
 import SeedDetail from './components/SeedDetail';
 
+import SeedsToday from './components/SeedsToday'
+
 import ChartTest from './components/ChartTest';
 import axios from 'axios';
 import { setToken } from "./store"
@@ -51,7 +53,8 @@ function App() {
 
   if(!state.token) {
     return (
-      <Login />
+      // <Login />
+      <SeedsToday />
     );
   }
   else {
