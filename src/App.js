@@ -5,6 +5,8 @@ import { Routes, Route, Link, useNavigate, Outlet , Redirect, Navigate} from 're
 // import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
+import Header from './Header';
 import Login from './components/Login';
 import Seeds from './components/Seeds';
 import { useSelector, useDispatch } from "react-redux"
@@ -53,17 +55,21 @@ function App() {
 
   if(!state.token) {
     return (
-      // <Login />
-      <SeedsToday />
+      <Login />
     );
   }
   else {
     return (
-      <Routes>
-         <Route path='/' element={<Navigate to={"/seeds"}/>}/>
-        <Route path='/seeds' element={<Seeds/>}/>
-        <Route path='/seeds/:id?' element={<SeedDetail/>}/>
-     </Routes> 
+      <>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Navigate to={"/seeds/today"}/>}/>
+          {/* <Route path='/' element={<Navigate to={"/seeds"}/>}/> */}
+          <Route path='/seeds' element={<Seeds/>}/>
+          <Route path='/seeds/today' element={<SeedsToday/>}/>
+          <Route path='/seeds/:id?' element={<SeedDetail/>}/>
+      </Routes> 
+     </>
     );
   }
 
