@@ -85,7 +85,6 @@ function PlatnChart({
     const index = term_day + start_day;
     const x = Math.floor(index % 7);
     const y = Math.floor( index / 7 );
-    console.log(x, y, term_day, index, new Date(item.date), new Date(start_date));
     data[x].bins[y].count = item.weight;
   })
   

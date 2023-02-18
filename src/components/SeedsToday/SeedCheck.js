@@ -48,7 +48,7 @@ function SeedCheck() {
   let state = useSelector((state)=> state);
   let dispatch = useDispatch();
   useEffect(()=>{
-    axios.get('/v1/seeds')
+    axios.get('/v1/seeds/today')
       .then((data)=>{ 
         dispatch(pushSeed(data.data))
       })
@@ -60,13 +60,13 @@ function SeedCheck() {
   };
 
   const handleCheckClick = (id) => {
-    // axios.post(`/v1/seeds/${id}/plant`)
-    // .then((res)=>{
-    //   axios.get(`/v1/seeds`)
-    //   .then((data)=>{
-    //     dispatch(pushSeed(data.data))
-    //   })
-    // })
+    axios.post(`/v1/seeds/${id}/plant`)
+    .then((res)=>{
+      axios.get(`/v1/seeds/today`)
+      .then((data)=>{
+        dispatch(pushSeed(data.data))
+      })
+    })
   }
 
   return (
@@ -76,7 +76,7 @@ function SeedCheck() {
       state.seeds.map((seed, index) => (
         <Carousel.Item key={index}>
             <CardSection>
-              <CheckCircle done={seed.done} onClick={handleCheckClick(seed.id)}>{!seed.done && <MdDone />}</CheckCircle>
+              <CheckCircle done={seed.done} onClick={()=>handleCheckClick(seed.id)}>{seed.done && <MdDone />}</CheckCircle>
               <CardTitle onClick={() => handleCardClick(seed.id)}>{seed.title}</CardTitle>
             </CardSection>
           </Carousel.Item>
