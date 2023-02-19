@@ -11,6 +11,7 @@ import Login from './components/Login';
 import Seeds from './components/Seeds';
 import { useSelector, useDispatch } from "react-redux"
 import SeedDetail from './components/SeedDetail';
+import Join from './components/Join';
 
 import SeedsToday from './components/SeedsToday'
 
@@ -55,7 +56,13 @@ function App() {
 
   if(!state.token) {
     return (
-      <Login />
+      <Routes>
+      {/* <Route path='/seeds/join' element={<Join/>}/> */}
+       <Route path='/' element={<Navigate to={"/login"}/>}/>
+       <Route path='/login' element={<Login />}/>
+       <Route path='/register' element={<Join />}/>
+   </Routes> 
+  //  <Login />
     );
   }
   else {
@@ -63,11 +70,12 @@ function App() {
       <>
         <Header />
         <Routes>
+         {/* <Route path='/seeds/join' element={<Join/>}/> */}
           <Route path='/' element={<Navigate to={"/seeds/today"}/>}/>
-          {/* <Route path='/' element={<Navigate to={"/seeds"}/>}/> */}
           <Route path='/seeds' element={<Seeds/>}/>
           <Route path='/seeds/today' element={<SeedsToday/>}/>
           <Route path='/seeds/:id?' element={<SeedDetail/>}/>
+          <Route path='/seeds/join' element={<Join/>}/>
       </Routes> 
      </>
     );

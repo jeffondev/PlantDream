@@ -1,9 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from 'react-router-dom';
 import { setToken } from "../store"
+import styled from 'styled-components';
 import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
 import tree from "../img/나무무무무.png"
+import Join from './Join';
+
+const Button = styled.button`
+  /* padding-top: 48px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 24px; */
+  border-bottom: 1px solid #e9ecef;
+`;
 
 function Login() {
   let [email, setEmail] = useState('');
@@ -21,12 +32,20 @@ function Login() {
       dispatch(setToken(token));
       localStorage.setItem("email", email);
       localStorage.setItem("auth", token);
+      navigate("/")
     })
     .catch((err) => {
       console.error("[%d] msg: %s", err.response.status, err.response.data.msg);
       setIsErr(true);
     })
     // dispatch(loggined())
+  }
+
+  const navigate = useNavigate();
+  function JoinClick(e) {
+    console.log("111")
+    // navigate('/join');
+    navigate("/register")
   }
 
   const handleEmailChange = (e) => {
@@ -51,7 +70,8 @@ function Login() {
           <div>
             <input type="password" placeholder='비밀번호' onChange={(e)=>{ setPassword(e.target.value) }}></input>
           </div>
-          <button onClick={() => {LoginClick()}}>로그인</button>
+          <Button onClick={() => {LoginClick()}}>로그인</Button>
+          <Button onClick={() => {JoinClick()}}>회원가입</Button>
           {isErr && (
             <div className='login-err'>로그인 정보가 잘못되었습니다.</div>
           )}
@@ -69,7 +89,8 @@ function Login() {
           <div>
             <input type="password" placeholder='비밀번호' onChange={(e)=>{ setPassword(e.target.value) }}></input>
           </div>
-          <button onClick={() => {LoginClick()}}>로그인</button>
+          <Button onClick={() => {LoginClick()}}>로그인</Button>
+          <Button onClick={() => {JoinClick()}}>회원가입</Button>
           {isErr && (
             <div className='login-err'>로그인 정보가 잘못되었습니다.</div>
           )}
