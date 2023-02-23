@@ -2,7 +2,6 @@
 import React from 'react';
 import './App.css';
 import { Routes, Route, Link, useNavigate, Outlet , Redirect, Navigate} from 'react-router-dom';
-// import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -15,27 +14,15 @@ import Join from './components/Join';
 
 import SeedsToday from './components/SeedsToday'
 
-import ChartTest from './components/ChartTest';
-import axios from 'axios';
 import { setToken } from "./store"
-// import { loggined } from "./store"
+
+import * as API from "./api"
 
 function App() {
-  // let [Logined, setLogined] = useState(false);
-
 
   let state = useSelector((state)=> state);
   let dispatch = useDispatch();
-  // let dispatch = useDispatch();
-
-  // AuthRouter
-// <Route path="/login" linkto="components/Login" />
-
-// <Route path="/login" linkto="components/Login" />
-
-
-  // return <ChartTest width={400} height={400} />;
-
+  
   console.log(localStorage.getItem("auth"));
 
   if(!state.token) {
@@ -43,7 +30,7 @@ function App() {
     const email = localStorage.getItem("email");
 
     if(token) {
-      axios.post('/v1/auth/credential', {email, "auth_token": token})
+      API.postAuthCredentail({email, "auth_token": token})
       .then((res)=>{
         console.log("auto login");
         dispatch(setToken(token));
@@ -57,7 +44,6 @@ function App() {
   if(!state.token) {
     return (
       <Routes>
-      {/* <Route path='/seeds/join' element={<Join/>}/> */}
        <Route path='/' element={<Navigate to={"/login"}/>}/>
        <Route path='/login' element={<Login />}/>
        <Route path='/register' element={<Join />}/>
@@ -70,7 +56,6 @@ function App() {
       <>
         <Header />
         <Routes>
-         {/* <Route path='/seeds/join' element={<Join/>}/> */}
           <Route path='/' element={<Navigate to={"/seeds/today"}/>}/>
           <Route path='/seeds' element={<Seeds/>}/>
           <Route path='/seeds/today' element={<SeedsToday/>}/>

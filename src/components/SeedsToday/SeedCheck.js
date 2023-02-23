@@ -7,6 +7,8 @@ import { pushSeed } from "../../store"
 import { useNavigate } from 'react-router-dom';
 import { MdDone, MdDelete } from 'react-icons/md';
 
+import * as API from "../../api";
+
 const CardSection = styled.div`
   width: 100%;
   height: 500px;
@@ -48,7 +50,7 @@ function SeedCheck() {
   let state = useSelector((state)=> state);
   let dispatch = useDispatch();
   useEffect(()=>{
-    axios.get('/v1/seeds/today')
+    API.getSeedsToday()
       .then((data)=>{ 
         dispatch(pushSeed(data.data))
       })
@@ -60,9 +62,9 @@ function SeedCheck() {
   };
 
   const handleCheckClick = (id) => {
-    axios.post(`/v1/seeds/${id}/plant`)
+    API.postSeedsItemPlant(id)
     .then((res)=>{
-      axios.get(`/v1/seeds/today`)
+      API.getSeedsToday()
       .then((data)=>{
         dispatch(pushSeed(data.data))
       })

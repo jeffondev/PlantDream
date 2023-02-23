@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { MdApi } from 'react-icons/md';
+import * as API from "../api"
 
 const RegistButton = styled.button`
   margin-top: 20px;
@@ -45,7 +47,7 @@ function Join() {
       alert("비밀번호를 확인하세요")
       return;
     }
-    axios.post('/v1/auth/signup', input)
+    API.postAuthSignup(input)
     .then((data)=>{
       navigate("/login")
     })

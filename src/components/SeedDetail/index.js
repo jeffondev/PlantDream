@@ -4,9 +4,10 @@ import SeedHead from "./SeedHead";
 import SeedPlant from "./SeedPlant";
 import SeedTemplate from './SeedTemplate';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { setSeedDetail } from "../../store"
 import { useDispatch } from "react-redux"
+
+import * as API from "../../api"
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -22,7 +23,7 @@ function SeedDetail() {
   const { id } = useParams();
 
   useEffect(()=>{
-    axios.get(`/v1/seeds/${id}`)
+    API.getSeedsItem(id)
       .then((data)=>{ 
         console.log(data.data)
         dispatch(setSeedDetail(data.data))

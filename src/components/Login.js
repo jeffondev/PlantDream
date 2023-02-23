@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,7 +5,7 @@ import { setToken } from "../store"
 import styled from 'styled-components';
 import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
 import tree from "../img/나무무무무.png"
-import Join from './Join';
+import * as API from "../api";
 
 const Button = styled.button`
   /* padding-top: 48px;
@@ -25,7 +24,7 @@ function Login() {
   let dispatch = useDispatch();
 
   function LoginClick(e) {
-    axios.post('/v1/auth/signin', {"email" : email, "password" : password})
+    API.postAuthSignin({"email" : email, "password" : password})
     .then((res)=> {
       const token = res.data.token;
       console.log(res, token);

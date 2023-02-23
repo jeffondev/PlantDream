@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch } from "react-redux"
 import { pushSeed } from "../../store"
 import React, { Component } from "react";
+import * as API from "../../api"
 
 const CircleButton = styled.button`
   background: #38d9a9;
@@ -100,9 +101,9 @@ function SeedCreate() {
 
   let dispatch = useDispatch();
   const handleSubmit = (e) => {
-    axios.post('/v1/seeds', inputs)
+    API.postSeeds(inputs)
     .then((res)=> {
-      axios.get('/v1/seeds')
+      API.getSeeds()
         .then((data)=>{ 
           // console.log(data.data);
           dispatch(pushSeed(data.data))

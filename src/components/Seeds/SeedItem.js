@@ -5,6 +5,7 @@ import { MdDone, MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { pushSeed, setOnTogle } from "../../store"
+import * as API from "../../api"
 
 const Remove = styled.div`
   display: flex;
@@ -78,9 +79,9 @@ function SeedItem({ id, done, text }) {
 
   const confirmModal = (e) => {
     if (window.confirm("정말 목표를 삭제하시겠습니까?")) {
-      axios.delete(`/v1/seeds/${id}`)
+      API.getSeedsItem(id)
           .then((res)=>{
-            axios.get('/v1/seeds')
+            API.getSeeds()
               .then((data)=>{  
                 dispatch(pushSeed(data.data))
               })
@@ -89,9 +90,9 @@ function SeedItem({ id, done, text }) {
   }
   
   const handleCheckClick = (e) => {
-    axios.post(`/v1/seeds/${id}/plant`)
+    API.postSeedsItemPlant(id)
     .then((res)=>{
-      axios.get(`/v1/seeds`)
+      API.getSeeds()
       .then((data)=>{
         dispatch(pushSeed(data.data))
       })
